@@ -21,8 +21,10 @@ import javax.swing.Timer;
 public class IHMPrincipale extends javax.swing.JFrame {
 
     private File fichierMap = new File("src/images/map.jpg");
-    private BufferedImage imageMap, imageMapResize;
+    private File fichierPerso = new File("src/images/perso1.png");
+    private BufferedImage imageMap, imageMapResize, imagePerso;
     private int[] dimEcran = new int[2];
+    private int xPerso=1000, yPerso=500;
 
     public IHMPrincipale() {
         initComponents();
