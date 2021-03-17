@@ -24,7 +24,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private File fichierPerso = new File("src/images/perso1.png");
     private BufferedImage imageMap, imageMapResize, imagePerso;
     private int[] dimEcran = new int[2];
-    private int xPerso=1000, yPerso=500;
+    private int xPerso, yPerso;
 
     public IHMPrincipale() {
         initComponents();
@@ -42,6 +42,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.add(jButtonReglage);
         try {
             imageMap = ImageIO.read(fichierMap); //chargement
+            imagePerso = ImageIO.read(fichierPerso);
             imageMapResize = a.resize(imageMap, dimEcran[0], dimEcran[1]);
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
@@ -51,10 +52,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 //code exécuté toutes les 3000 ms
                 Random hasard = new Random();
-                //xGhost = hasard.nextInt(1000);
-                //yGhost = hasard.nextInt(1000);
-                //Flute
-                jPanel1.repaint();
+                //xPerso = hasard.nextInt(500);
+                //yPerso = hasard.nextInt(500);
+                //jPanel1.repaint();
             }
         });
         t.start(); //lancer le timer
@@ -73,6 +73,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
             public void paintComponent(Graphics g)
             {
                 g.drawImage(imageMapResize, 0, 0, null);
+                g.drawImage(imagePerso, xPerso, yPerso, null);
             }
         }
         ;
