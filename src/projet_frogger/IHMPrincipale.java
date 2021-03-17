@@ -49,8 +49,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 //code exécuté toutes les 3000 ms
                 Random hasard = new Random();
-                xGhost = hasard.nextInt(1000);
-                yGhost = hasard.nextInt(1000);
+                //xGhost = hasard.nextInt(1000);
+                //yGhost = hasard.nextInt(1000);
+                //Flute
                 jPanel1.repaint();
             }
         });
