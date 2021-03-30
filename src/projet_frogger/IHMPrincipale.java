@@ -158,6 +158,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonNoSound.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonNoSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bouton/son coupé.png"))); // NOI18N
+        jButtonNoSound.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonNoSoundMouseClicked(evt);
+            }
+        });
         jButtonNoSound.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNoSoundActionPerformed(evt);
@@ -166,6 +171,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonSound.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bouton/son ouvert.png"))); // NOI18N
+        jButtonSound.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonSoundMouseClicked(evt);
+            }
+        });
         jButtonSound.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSoundActionPerformed(evt);
@@ -264,7 +274,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDifficulteMouseClicked
 
     private void jButtonFacileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFacileActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButtonFacileActionPerformed
 
     private void jButtonDifficileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficileActionPerformed
@@ -298,12 +308,20 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonJouerActionPerformed
 
     private void jButtonNoSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNoSoundActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButtonNoSoundActionPerformed
 
     private void jButtonSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButtonSoundActionPerformed
+
+    private void jButtonNoSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNoSoundMouseClicked
+        
+    }//GEN-LAST:event_jButtonNoSoundMouseClicked
+
+    private void jButtonSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSoundMouseClicked
+        
+    }//GEN-LAST:event_jButtonSoundMouseClicked
 
     /**
      * @param args the command line arguments
