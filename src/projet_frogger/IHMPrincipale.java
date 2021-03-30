@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor. J4AIME LES QUEUX
+ * and open the template in the editor.
  */
 package projet_frogger;
 
@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,9 +23,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
     private File fichierMap = new File("src/images/map.jpg");
     private File fichierPerso = new File("src/images/perso1.png");
-    private BufferedImage imageMap, imageMapResize, imagePerso;
+    private BufferedImage imageMap, imageMapResize, imagePerso, imagePersoResize;
     private int[] dimEcran = new int[2];
-    private int xPerso, yPerso;
 
     public IHMPrincipale() {
         initComponents();
@@ -46,11 +46,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.remove(jButtonSound);
         jPanel1.remove(jButtonNoSound);
 
- 
         try {
             imageMap = ImageIO.read(fichierMap); //chargement
             imagePerso = ImageIO.read(fichierPerso);
             imageMapResize = a.resize(imageMap, dimEcran[0], dimEcran[1]);
+            imagePersoResize = a.resize(imagePerso, (int) (dimEcran[0] * 0.11), (int) (dimEcran[1] * 0.07));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
@@ -80,7 +80,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
             public void paintComponent(Graphics g)
             {
                 g.drawImage(imageMapResize, 0, 0, null);
-                g.drawImage(imagePerso, xPerso, yPerso, null);
+                g.drawImage(imagePersoResize, xPerso, yPerso, null);
             }
         }
         ;
@@ -95,6 +95,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonSound = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPanel1KeyPressed(evt);
+            }
+        });
 
         jButtonAide.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonAide.setText("Aide");
@@ -150,6 +156,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonJouer.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonJouer.setText("Jouer");
+        jButtonJouer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonJouerMouseClicked(evt);
+            }
+        });
         jButtonJouer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonJouerActionPerformed(evt);
@@ -249,6 +260,26 @@ public class IHMPrincipale extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private int xPerso = 0, yPerso = 0;
+
+    public void jPanel1KeyPressed(KeyEvent evt) {
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_RIGHT:
+                xPerso = xPerso + 10;
+                break;
+            case KeyEvent.VK_LEFT:
+                xPerso = xPerso - 10;
+                break;
+            case KeyEvent.VK_UP:
+                yPerso = yPerso - 10;
+                break;
+            case KeyEvent.VK_DOWN:
+                yPerso = yPerso + 10;
+                break;
+        }
+        jPanel1.repaint();
+    }
+
     private void jButtonDifficulteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficulteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonDifficulteActionPerformed
@@ -263,14 +294,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonReglage.setVisible(false);
         jButtonSound.setVisible(false);
         jButtonNoSound.setVisible(false);
-        
+
         jPanel1.add(jButtonFacile);
         jPanel1.add(jButtonMoyen);
         jPanel1.add(jButtonDifficile);
-        
-     
 
-   
+
     }//GEN-LAST:event_jButtonDifficulteMouseClicked
 
     private void jButtonFacileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFacileActionPerformed
@@ -278,15 +307,15 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFacileActionPerformed
 
     private void jButtonDifficileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficileActionPerformed
-        
+
     }//GEN-LAST:event_jButtonDifficileActionPerformed
 
     private void jButtonMoyenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonMoyenMouseClicked
-        
+
     }//GEN-LAST:event_jButtonMoyenMouseClicked
 
     private void jButtonFacileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFacileMouseClicked
-        
+
     }//GEN-LAST:event_jButtonFacileMouseClicked
 
     private void jButtonReglageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReglageMouseClicked
@@ -296,11 +325,10 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
-        
-        
+
         jPanel1.add(jButtonSound);
         jPanel1.add(jButtonNoSound);
-        
+
     }//GEN-LAST:event_jButtonReglageMouseClicked
 
     private void jButtonJouerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJouerActionPerformed
@@ -315,13 +343,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonSoundActionPerformed
 
-    private void jButtonNoSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNoSoundMouseClicked
-        
-    }//GEN-LAST:event_jButtonNoSoundMouseClicked
-
-    private void jButtonSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSoundMouseClicked
-        
-    }//GEN-LAST:event_jButtonSoundMouseClicked
+    private void jButtonJouerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonJouerMouseClicked
+        jButtonJouer.setVisible(false);
+        jButtonAide.setVisible(false);
+        jButtonDifficulte.setVisible(false);
+        jButtonReglage.setVisible(false);
+    }//GEN-LAST:event_jButtonJouerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -340,13 +367,17 @@ public class IHMPrincipale extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(IHMPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IHMPrincipale.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(IHMPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IHMPrincipale.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(IHMPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IHMPrincipale.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(IHMPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IHMPrincipale.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -357,6 +388,21 @@ public class IHMPrincipale extends javax.swing.JFrame {
                 new IHMPrincipale().setVisible(true);
             }
         });
+    }
+
+    private void traitementBorne() {
+        if (xPerso < -50) {
+            xPerso = 1500;
+        }
+        if (xPerso > 1500) {
+            xPerso = -50;
+        }
+        if (yPerso < -50) {
+            yPerso = 750;
+        }
+        if (yPerso > 750) {
+            yPerso = -50;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
