@@ -242,15 +242,21 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFacileActionPerformed
 
     private void jButtonDifficileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficileActionPerformed
-        // TODO add your handling code here:
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
     }//GEN-LAST:event_jButtonDifficileActionPerformed
 
     private void jButtonMoyenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonMoyenMouseClicked
-        // TODO add your handling code here:
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
     }//GEN-LAST:event_jButtonMoyenMouseClicked
 
     private void jButtonFacileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFacileMouseClicked
-        // TODO add your handling code here:
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
     }//GEN-LAST:event_jButtonFacileMouseClicked
 
     /**
