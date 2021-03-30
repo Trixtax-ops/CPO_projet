@@ -40,6 +40,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.add(jButtonAide);
         jPanel1.add(jButtonDifficulte);
         jPanel1.add(jButtonReglage);
+        jPanel1.remove(jButtonFacile);
+        jPanel1.remove(jButtonMoyen);
+        jPanel1.remove(jButtonDifficile);
+
+ 
         try {
             imageMap = ImageIO.read(fichierMap); //chargement
             imagePerso = ImageIO.read(fichierPerso);
@@ -81,6 +86,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide = new javax.swing.JButton();
         jButtonDifficulte = new javax.swing.JButton();
         jButtonReglage = new javax.swing.JButton();
+        jButtonFacile = new javax.swing.JButton();
+        jButtonMoyen = new javax.swing.JButton();
+        jButtonDifficile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,6 +105,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonDifficulte.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonDifficulte.setText("Difficulté");
+        jButtonDifficulte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonDifficulteMouseClicked(evt);
+            }
+        });
         jButtonDifficulte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDifficulteActionPerformed(evt);
@@ -105,32 +118,80 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonReglage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bouton/boutonReglage.jpg"))); // NOI18N
 
+        jButtonFacile.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        jButtonFacile.setText("FACILE");
+        jButtonFacile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonFacileMouseClicked(evt);
+            }
+        });
+        jButtonFacile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFacileActionPerformed(evt);
+            }
+        });
+
+        jButtonMoyen.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        jButtonMoyen.setText("MOYEN");
+        jButtonMoyen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonMoyenMouseClicked(evt);
+            }
+        });
+
+        jButtonDifficile.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        jButtonDifficile.setText("DIFFICILE");
+        jButtonDifficile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDifficileActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(205, 205, 205)
+                .addGap(143, 143, 143)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonDifficulte, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAide, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonJouer, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonFacile, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonMoyen, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonDifficile, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonJouer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonAide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jButtonReglage, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(113, 113, 113))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jButtonJouer)
-                .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAide)
-                    .addComponent(jButtonReglage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(jButtonJouer))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(jButtonFacile)))
+                        .addGap(49, 49, 49)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonAide)
+                            .addComponent(jButtonReglage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(185, 185, 185)
+                        .addComponent(jButtonMoyen)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jButtonDifficile)
+                .addGap(2, 2, 2)
                 .addComponent(jButtonDifficulte)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -157,6 +218,40 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
     }//GEN-LAST:event_jButtonJouerActionPerformed
+
+    private void jButtonDifficulteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDifficulteMouseClicked
+        jButtonFacile.setBounds((dimEcran[0] - 400) / 2, 100, 400, 100);
+        jButtonMoyen.setBounds((dimEcran[0] - 400) / 2, 300, 400, 100);
+        jButtonDifficile.setBounds((dimEcran[0] - 400) / 2, 500, 400, 100);
+        jButtonJouer.setVisible(false);
+        jButtonAide.setVisible(false);
+        jButtonDifficulte.setVisible(false);
+        jButtonReglage.setVisible(false);
+        
+        jPanel1.add(jButtonFacile);
+        jPanel1.add(jButtonMoyen);
+        jPanel1.add(jButtonDifficile);
+        
+     
+
+   
+    }//GEN-LAST:event_jButtonDifficulteMouseClicked
+
+    private void jButtonFacileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFacileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonFacileActionPerformed
+
+    private void jButtonDifficileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDifficileActionPerformed
+
+    private void jButtonMoyenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonMoyenMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonMoyenMouseClicked
+
+    private void jButtonFacileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFacileMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonFacileMouseClicked
 
     /**
      * @param args the command line arguments
@@ -196,8 +291,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAide;
+    private javax.swing.JButton jButtonDifficile;
     private javax.swing.JButton jButtonDifficulte;
+    private javax.swing.JButton jButtonFacile;
     private javax.swing.JButton jButtonJouer;
+    private javax.swing.JButton jButtonMoyen;
     private javax.swing.JButton jButtonReglage;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
