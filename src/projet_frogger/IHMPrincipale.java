@@ -24,8 +24,13 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
     private File fichierMap = new File("src/images/map.jpg");
     private File fichierPerso = new File("src/images/perso1.png");
+    private File fichierObstacle = new File("src/images/bouleDeFeu.png");
     private BufferedImage imageMap, imageMapResize, imagePerso, imagePersoResize;
+    private BufferedImage imageObstacle, imageObstacleResize;
     private int[] dimEcran = new int[2];
+    private int xPerso, yPerso;
+    private int xObstacle, yObstacle;
+    private boolean bool;
 
     public IHMPrincipale() {
         initComponents();
@@ -33,6 +38,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         dimEcran = a.dimensionEcran();
         jPanel1.setFocusable(true);
         setBounds(0, 0, dimEcran[0] + 15, dimEcran[1]);
+        xPerso = (int) (dimEcran[0] / 2 - (dimEcran[0] * 0.11) / 2);
+        yPerso = (int) ((int) dimEcran[1] * 0.865);
+        yObstacle = (int) ((int) dimEcran[1] * 0.865 - (dimEcran[1] / 15.2));
         jButtonJouer.setBounds((dimEcran[0] - 400) / 2, 100, 400, 100);
         jButtonAide.setBounds((dimEcran[0] - 400) / 2, 300, 400, 100);
         jButtonDifficulte.setBounds((dimEcran[0] - 400) / 2, 500, 400, 100);
@@ -50,19 +58,20 @@ public class IHMPrincipale extends javax.swing.JFrame {
         try {
             imageMap = ImageIO.read(fichierMap); //chargement
             imagePerso = ImageIO.read(fichierPerso);
+            imageObstacle = ImageIO.read(fichierObstacle);
             imageMapResize = a.resize(imageMap, dimEcran[0], dimEcran[1]);
             imagePersoResize = a.resize(imagePerso, (int) (dimEcran[0] * 0.11), (int) (dimEcran[1] * 0.07));
+            imageObstacleResize = a.resize(imageObstacle, (int) (dimEcran[0] / 15.5), (int) (dimEcran[1] / 15.5));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
-        Timer t = new Timer(3000, new ActionListener() {
+        Timer t = new Timer(300, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //code exécuté toutes les 3000 ms
                 Random hasard = new Random();
-                //xPerso = hasard.nextInt(500);
-                //yPerso = hasard.nextInt(500);
-                //jPanel1.repaint();
+                xObstacle += 80;
+                jPanel1.repaint();
             }
         });
         t.start(); //lancer le timer
@@ -82,6 +91,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
             {
                 g.drawImage(imageMapResize, 0, 0, null);
                 g.drawImage(imagePersoResize, xPerso, yPerso, null);
+                g.drawImage(imageObstacleResize, xObstacle, yObstacle, null);
             }
         }
         ;
@@ -222,24 +232,24 @@ public class IHMPrincipale extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private int xPerso = 0, yPerso = 0;
-
     public void jPanel1KeyPressed(KeyEvent evt) {
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-                xPerso = xPerso + 10;
-                break;
-            case KeyEvent.VK_LEFT:
-                xPerso = xPerso - 10;
-                break;
-            case KeyEvent.VK_UP:
-                yPerso = yPerso - 10;
-                break;
-            case KeyEvent.VK_DOWN:
-                yPerso = yPerso + 10;
-                break;
+        if (bool) {
+            switch (evt.getKeyCode()) {
+                case KeyEvent.VK_RIGHT:
+                    xPerso = (int) (xPerso + (dimEcran[0] / 15.2));
+                    break;
+                case KeyEvent.VK_LEFT:
+                    xPerso = (int) (xPerso - (dimEcran[0] / 15.2));
+                    break;
+                case KeyEvent.VK_UP:
+                    yPerso = (int) (yPerso - (dimEcran[1] / 15.2));
+                    break;
+                case KeyEvent.VK_DOWN:
+                    yPerso = (int) (yPerso + (dimEcran[1] / 15.2));
+                    break;
+            }
+            jPanel1.repaint();
         }
-        jPanel1.repaint();
     }
 
     private void jButtonDifficulteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficulteActionPerformed
@@ -265,7 +275,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDifficulteMouseClicked
 
     private void jButtonFacileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFacileActionPerformed
-        
+
     }//GEN-LAST:event_jButtonFacileActionPerformed
 
     private void jButtonDifficileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficileActionPerformed
@@ -302,6 +312,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
+        bool = true;
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
     /**
@@ -345,14 +356,14 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }
 
     private void traitementBorne() {
-        if (xPerso < -50) {
-            xPerso = 1500;
+        if (xPerso < (int) (dimEcran[0] * 0.11)) {
+            xPerso = (int) (xPerso + (dimEcran[0] / 15.2));
         }
-        if (xPerso > 1500) {
+        if (xPerso > (int) dimEcran[0] - (dimEcran[0] * 0.11)) {
             xPerso = -50;
         }
-        if (yPerso < -50) {
-            yPerso = 750;
+        if (yPerso < (int) (dimEcran[0] * 0.11)) {
+            yPerso = 50;
         }
         if (yPerso > 750) {
             yPerso = -50;
