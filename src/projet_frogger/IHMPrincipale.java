@@ -61,7 +61,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imageObstacle = ImageIO.read(fichierObstacle);
             imageMapResize = a.resize(imageMap, dimEcran[0], dimEcran[1]);
             imagePersoResize = a.resize(imagePerso, (int) (dimEcran[0] * 0.11), (int) (dimEcran[1] * 0.07));
-            imageObstacleResize = a.resize(imageObstacle, (int) (dimEcran[0] / 15.5), (int) (dimEcran[1] / 15.5));
+            imageObstacleResize = a.resize(imageObstacle, (int) (dimEcran[0] / 14), (int) (dimEcran[1] / 15.5));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
@@ -236,15 +236,20 @@ public class IHMPrincipale extends javax.swing.JFrame {
         if (bool) {
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
+                    if(xPerso < (int) (dimEcran[0] * 0.87))
                     xPerso = (int) (xPerso + (dimEcran[0] / 15.2));
+                    System.out.println(xPerso);
                     break;
                 case KeyEvent.VK_LEFT:
+                    if(xPerso > (int) (dimEcran[0] * 0.005))
                     xPerso = (int) (xPerso - (dimEcran[0] / 15.2));
                     break;
                 case KeyEvent.VK_UP:
+                    if(yPerso > 40)
                     yPerso = (int) (yPerso - (dimEcran[1] / 15.2));
                     break;
                 case KeyEvent.VK_DOWN:
+                    if(yPerso < ((int) dimEcran[1] * 0.86))
                     yPerso = (int) (yPerso + (dimEcran[1] / 15.2));
                     break;
             }
