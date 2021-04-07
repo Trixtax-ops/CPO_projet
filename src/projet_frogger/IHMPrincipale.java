@@ -360,20 +360,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
         });
     }
 
-    private void traitementBorne() {
-        if (xPerso < (int) (dimEcran[0] * 0.11)) {
-            xPerso = (int) (xPerso + (dimEcran[0] / 15.2));
-        }
-        if (xPerso > (int) dimEcran[0] - (dimEcran[0] * 0.11)) {
-            xPerso = -50;
-        }
-        if (yPerso < (int) (dimEcran[0] * 0.11)) {
-            yPerso = 50;
-        }
-        if (yPerso > 750) {
-            yPerso = -50;
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAide;
