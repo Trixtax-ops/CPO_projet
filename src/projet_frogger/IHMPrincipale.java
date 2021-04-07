@@ -52,8 +52,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.remove(jButtonFacile);
         jPanel1.remove(jButtonMoyen);
         jPanel1.remove(jButtonDifficile);
-        //jPanel1.remove(jButtonSound);
-        //jPanel1.remove(jButtonNoSound);
+        jPanel1.remove(jButtonSoundOn);
+        jPanel1.remove(jButtonNoSound);
+        
 
         try {
             imageMap = ImageIO.read(fichierMap); //chargement
@@ -102,6 +103,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonMoyen = new javax.swing.JButton();
         jButtonDifficile = new javax.swing.JButton();
         jButtonJouer = new javax.swing.JButton();
+        jButtonNoSound = new javax.swing.JButton();
+        jButtonSoundOn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,6 +134,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonReglage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonReglageMouseClicked(evt);
+            }
+        });
+        jButtonReglage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReglageActionPerformed(evt);
             }
         });
 
@@ -176,6 +184,27 @@ public class IHMPrincipale extends javax.swing.JFrame {
             }
         });
 
+        jButtonNoSound.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        jButtonNoSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bouton/sonCoupé.png"))); // NOI18N
+        jButtonNoSound.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonNoSoundMouseClicked(evt);
+            }
+        });
+        jButtonNoSound.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNoSoundActionPerformed(evt);
+            }
+        });
+
+        jButtonSoundOn.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        jButtonSoundOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bouton/sonOuvert.png"))); // NOI18N
+        jButtonSoundOn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSoundOnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -191,9 +220,17 @@ public class IHMPrincipale extends javax.swing.JFrame {
                     .addComponent(jButtonAide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonJouer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDifficulte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 669, Short.MAX_VALUE)
-                .addComponent(jButtonReglage, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 669, Short.MAX_VALUE)
+                        .addComponent(jButtonReglage, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonNoSound, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSoundOn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,14 +245,17 @@ public class IHMPrincipale extends javax.swing.JFrame {
                         .addGap(64, 64, 64)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonFacile)
-                            .addComponent(jButtonJouer))
-                        .addGap(211, 211, 211)
+                            .addComponent(jButtonJouer)
+                            .addComponent(jButtonNoSound))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSoundOn)
+                        .addGap(129, 129, 129)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonDifficulte)
                             .addComponent(jButtonDifficile))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonReglage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(550, Short.MAX_VALUE))
+                .addContainerGap(370, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -269,8 +309,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
-        //jButtonSound.setVisible(false);
-        //jButtonNoSound.setVisible(false);
+        jButtonNoSound.setVisible(false);
+        jButtonSoundOn.setVisible(false);
 
         jPanel1.add(jButtonFacile);
         jPanel1.add(jButtonMoyen);
@@ -296,15 +336,18 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFacileMouseClicked
 
     private void jButtonReglageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReglageMouseClicked
-        //jButtonSound.setBounds((dimEcran[0] - 200) / 2, 100, 200, 200);
-        //jButtonNoSound.setBounds((dimEcran[0] - 200) / 2, 400, 200, 200);
+        jButtonSoundOn.setBounds((dimEcran[0] - 200) / 2, 100, 200, 200);
+        jButtonNoSound.setBounds((dimEcran[0] - 200) / 2, 400, 200, 200);
         jButtonJouer.setVisible(false);
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
+        jButtonNoSound.setVisible(true);
+        jButtonSoundOn.setVisible(true);
+        
+        jPanel1.add(jButtonSoundOn);
+        jPanel1.add(jButtonNoSound);
 
-        //jPanel1.add(jButtonSound);
-        //jPanel1.add(jButtonNoSound);
 
     }//GEN-LAST:event_jButtonReglageMouseClicked
 
@@ -317,8 +360,26 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
+        jButtonNoSound.setVisible(false);
+        jButtonSoundOn.setVisible(false);
         bool = true;
     }//GEN-LAST:event_jButtonJouerMouseClicked
+
+    private void jButtonNoSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNoSoundMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNoSoundMouseClicked
+
+    private void jButtonNoSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNoSoundActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNoSoundActionPerformed
+
+    private void jButtonSoundOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundOnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSoundOnActionPerformed
+
+    private void jButtonReglageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReglageActionPerformed
+        
+    }//GEN-LAST:event_jButtonReglageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -382,7 +443,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFacile;
     private javax.swing.JButton jButtonJouer;
     private javax.swing.JButton jButtonMoyen;
+    private javax.swing.JButton jButtonNoSound;
     private javax.swing.JButton jButtonReglage;
+    private javax.swing.JButton jButtonSoundOn;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
