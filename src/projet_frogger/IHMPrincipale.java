@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class IHMPrincipale extends javax.swing.JFrame {
@@ -306,6 +307,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
         }
     }
 
+    public void traitementVictoire() {
+        if (yPerso < 15) {
+            JOptionPane.showMessageDialog(this, "Félicitations ! Vous avez traversée la route !");
+        }
+    }
+
     public void traitementObstacleL1() {
         if (xObstacle1 < dimImage[0]) {
             xObstacle1 += 3;
@@ -401,6 +408,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonNoSound.setVisible(false);
         jButtonSoundOn.setVisible(false);
         boolJouer = true;
+        traitementVictoire();
 
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
