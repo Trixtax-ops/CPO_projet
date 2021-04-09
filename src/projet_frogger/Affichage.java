@@ -9,6 +9,9 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -16,16 +19,20 @@ import java.awt.image.BufferedImage;
  */
 public class Affichage {
 
-    private int[] dimEcran = new int[2];
+    private File fichierMap = new File("src/images/map.jpg");
+    private int[] dimMap = new int[2];
+    private BufferedImage imageMap;
 
-    public int[] dimensionEcran() {
-        Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        dimEcran[1] = (int) tailleEcran.getHeight();
-        //dimEcran[0] = (int) tailleEcran.getWidth();
-        dimEcran[1] = dimEcran[1]-15;
-        dimEcran[0] = (int) (dimEcran[1] * 1.02);
+    public int[] dimensionImage() {
+        try {
+            imageMap = ImageIO.read(fichierMap); //chargement
+        } catch (IOException ex) {
+            System.out.println("fichier introuvable");
+        }
+        dimMap[0] = imageMap.getWidth();
+        dimMap[1] = imageMap.getHeight();
 
-        return dimEcran;
+        return dimMap;
     }
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {

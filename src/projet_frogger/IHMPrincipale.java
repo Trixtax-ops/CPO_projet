@@ -5,46 +5,49 @@
  */
 package projet_frogger;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class IHMPrincipale extends javax.swing.JFrame {
 
     private File fichierMap = new File("src/images/map.jpg");
     private File fichierPerso = new File("src/images/perso1.png");
-    private File fichierObstacle = new File("src/images/bouleDeFeu.png");
+    private File fichierObstacle1 = new File("src/images/bouleDeFeu.png");
+    private File fichierObstacle2 = new File("src/images/bouleDeFeu2.png");
     private BufferedImage imageMap, imageMapResize, imagePerso, imagePersoResize;
-    private BufferedImage imageObstacle, imageObstacleResize;
-    private int[] dimEcran = new int[2];
+    private BufferedImage imageObstacle1, imageObstacle1Resize;
+    private BufferedImage imageObstacle1Resize2;
+    private BufferedImage imageObstacle2, imageObstacle2Resize;
+    private int[] dimImage = new int[2];
     private int xPerso, yPerso;
-    private int xObstacle, yObstacle;
-    private boolean bool;
+    private int xObstacle1, yObstacle1, x2Obstacle1, y2Obstacle1;
+    private int xObstacle2, yObstacle2;
+    private boolean boolJouer;
 
     public IHMPrincipale() {
         initComponents();
         Affichage a = new Affichage();
-        dimEcran = a.dimensionEcran();
         jPanel1.setFocusable(true);
-        setBounds(0, 0, dimEcran[0] + 15, dimEcran[1]);
-        xPerso = (int) (dimEcran[0] / 2 - (dimEcran[0] * 0.11) / 2);
-        yPerso = (int) ((int) dimEcran[1] * 0.865);
-        yObstacle = (int) ((int) dimEcran[1] * 0.865 - (dimEcran[1] / 15.2));
-        jButtonJouer.setBounds((dimEcran[0] - 400) / 2, 100, 400, 100);
-        jButtonAide.setBounds((dimEcran[0] - 400) / 2, 300, 400, 100);
-        jButtonDifficulte.setBounds((dimEcran[0] - 400) / 2, 500, 400, 100);
-        jButtonReglage.setBounds(dimEcran[0] - 50, dimEcran[1] - 107, 50, 50);
+        dimImage = a.dimensionImage();
+        setBounds(0, 0, 694, 730);
+        xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
+        yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
+        yObstacle1 = (int) ((int) dimImage[1] - 2 * (dimImage[1] / 13));
+        y2Obstacle1 = (int) ((int) dimImage[1] - 2 * (dimImage[1] / 13));
+        x2Obstacle1 = (int) (dimImage[0] / 2);
+        yObstacle2 = (int) ((int) dimImage[1] - 3 * (dimImage[1] / 13));
+        xObstacle2 = (int) (dimImage[0]);
+        jButtonJouer.setBounds((dimImage[0] / 2) - 150, 100, 300, 75);
+        jButtonAide.setBounds((dimImage[0] / 2) - 150, 300, 300, 75);
+        jButtonDifficulte.setBounds((dimImage[0] / 2) - 150, 500, 300, 75);
+        jButtonReglage.setBounds(dimImage[0] - 50, dimImage[1] - 50, 50, 50);
         jPanel1.add(jButtonJouer);
         jPanel1.add(jButtonAide);
         jPanel1.add(jButtonDifficulte);
@@ -54,25 +57,25 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.remove(jButtonDifficile);
         jPanel1.remove(jButtonSoundOn);
         jPanel1.remove(jButtonNoSound);
-        
 
         try {
             imageMap = ImageIO.read(fichierMap); //chargement
             imagePerso = ImageIO.read(fichierPerso);
-            imageObstacle = ImageIO.read(fichierObstacle);
-            imageMapResize = a.resize(imageMap, dimEcran[0], dimEcran[1]);
-            imagePersoResize = a.resize(imagePerso, (int) (dimEcran[0] * 0.11), (int) (dimEcran[1] * 0.07));
-            imageObstacleResize = a.resize(imageObstacle, (int) (dimEcran[0] / 14), (int) (dimEcran[1] / 15.5));
+            imageObstacle1 = ImageIO.read(fichierObstacle1);
+            imageObstacle2 = ImageIO.read(fichierObstacle2);
+            imageMapResize = a.resize(imageMap, dimImage[0], dimImage[1]);
+            imagePersoResize = a.resize(imagePerso, dimImage[0] / 10, dimImage[1] / 13);
+            imageObstacle1Resize = a.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+            imageObstacle2Resize = a.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
-        Timer t = new Timer(300, new ActionListener() {
+        Timer t = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //code exécuté toutes les 3000 ms
-                Random hasard = new Random();
-                xObstacle += 80;
-                jPanel1.repaint();
+                //Random hasard = new Random();
+                traitementObstacleL1();
+                traitementObstacleL2();
             }
         });
         t.start(); //lancer le timer
@@ -92,7 +95,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
             {
                 g.drawImage(imageMapResize, 0, 0, null);
                 g.drawImage(imagePersoResize, xPerso, yPerso, null);
-                g.drawImage(imageObstacleResize, xObstacle, yObstacle, null);
+                g.drawImage(imageObstacle1Resize, xObstacle1, yObstacle1, null);
+                g.drawImage(imageObstacle1Resize2, x2Obstacle1, y2Obstacle1, null);
+                g.drawImage(imageObstacle2Resize, xObstacle2, yObstacle2, null);
             }
         }
         ;
@@ -273,28 +278,61 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void jPanel1KeyPressed(KeyEvent evt) {
-        if (bool) {
+        if (boolJouer) {
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
-                    if(xPerso < (int) (dimEcran[0] * 0.87))
-                    xPerso = (int) (xPerso + (dimEcran[0] / 15.2));
+                    if (xPerso < (int) (dimImage[0] * 0.84)) {
+                        xPerso = (int) (xPerso + (dimImage[0] / 11));
+                    }
                     System.out.println(xPerso);
                     break;
                 case KeyEvent.VK_LEFT:
-                    if(xPerso > (int) (dimEcran[0] * 0.005))
-                    xPerso = (int) (xPerso - (dimEcran[0] / 15.2));
+                    if (xPerso > (int) (dimImage[0] * 0.05)) {
+                        xPerso = (int) (xPerso - (dimImage[0] / 11));
+                    }
                     break;
                 case KeyEvent.VK_UP:
-                    if(yPerso > 40)
-                    yPerso = (int) (yPerso - (dimEcran[1] / 15.2));
+                    if (yPerso > 40) {
+                        yPerso = (int) (yPerso - (dimImage[1] / 13));
+                    }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(yPerso < ((int) dimEcran[1] * 0.86))
-                    yPerso = (int) (yPerso + (dimEcran[1] / 15.2));
+                    if (yPerso < ((int) dimImage[1] * 0.86)) {
+                        yPerso = (int) (yPerso + (dimImage[1] / 13));
+                    }
                     break;
             }
             jPanel1.repaint();
         }
+    }
+
+    public void traitementObstacleL1() {
+        if (xObstacle1 < dimImage[0]) {
+            xObstacle1 += 3;
+        } else {
+            imageObstacle1Resize = null;
+            xObstacle1 = 0;
+            imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+        }
+        if (x2Obstacle1 < dimImage[0]) {
+            x2Obstacle1 += 3;
+        } else {
+            imageObstacle1Resize2 = null;
+            x2Obstacle1 = 0;
+            imageObstacle1Resize2 = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+        }
+        jPanel1.repaint();
+    }
+
+    public void traitementObstacleL2() {
+        if (xObstacle2 > 0) {
+            xObstacle2 += -4;
+        } else {
+            imageObstacle2Resize = null;
+            xObstacle2 = dimImage[0];
+            imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+        }
+
     }
 
     private void jButtonDifficulteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficulteActionPerformed
@@ -302,9 +340,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDifficulteActionPerformed
 
     private void jButtonDifficulteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDifficulteMouseClicked
-        jButtonFacile.setBounds((dimEcran[0] - 400) / 2, 100, 400, 100);
-        jButtonMoyen.setBounds((dimEcran[0] - 400) / 2, 300, 400, 100);
-        jButtonDifficile.setBounds((dimEcran[0] - 400) / 2, 500, 400, 100);
+        jButtonFacile.setBounds((dimImage[0] - 400) / 2, 100, 300, 75);
+        jButtonMoyen.setBounds((dimImage[0] - 400) / 2, 300, 300, 75);
+        jButtonDifficile.setBounds((dimImage[0] - 400) / 2, 500, 300, 75);
         jButtonJouer.setVisible(false);
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
@@ -336,15 +374,15 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFacileMouseClicked
 
     private void jButtonReglageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReglageMouseClicked
-        jButtonSoundOn.setBounds((dimEcran[0] - 200) / 2, 100, 200, 200);
-        jButtonNoSound.setBounds((dimEcran[0] - 200) / 2, 400, 200, 200);
+        jButtonSoundOn.setBounds((dimImage[0] - 200) / 2, 100, 177, 148);
+        jButtonNoSound.setBounds((dimImage[0] - 200) / 2, 400, 177, 148);
         jButtonJouer.setVisible(false);
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
         jButtonNoSound.setVisible(true);
         jButtonSoundOn.setVisible(true);
-        
+
         jPanel1.add(jButtonSoundOn);
         jPanel1.add(jButtonNoSound);
 
@@ -362,7 +400,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonReglage.setVisible(false);
         jButtonNoSound.setVisible(false);
         jButtonSoundOn.setVisible(false);
-        bool = true;
+        boolJouer = true;
+
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
     private void jButtonNoSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNoSoundMouseClicked
@@ -378,7 +417,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSoundOnActionPerformed
 
     private void jButtonReglageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReglageActionPerformed
-        
+
     }//GEN-LAST:event_jButtonReglageActionPerformed
 
     /**
