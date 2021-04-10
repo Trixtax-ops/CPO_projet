@@ -64,20 +64,17 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imagePerso = ImageIO.read(fichierPerso);
             imageObstacle1 = ImageIO.read(fichierObstacle1);
             imageObstacle2 = ImageIO.read(fichierObstacle2);
-            imageMapResize = a.resize(imageMap, dimImage[0], dimImage[1]);
-            imagePersoResize = a.resize(imagePerso, dimImage[0] / 10, dimImage[1] / 13);
-            imageObstacle1Resize = a.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
-            imageObstacle2Resize = a.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+            imageMapResize = Affichage.resize(imageMap, dimImage[0], dimImage[1]);
+            imagePersoResize = Affichage.resize(imagePerso, dimImage[0] / 10, dimImage[1] / 13);
+            imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+            imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
-        Timer t = new Timer(16, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Random hasard = new Random();
-                traitementObstacleL1();
-                traitementObstacleL2();
-            }
+        Timer t = new Timer(16, (ActionEvent e) -> {
+            //Random hasard = new Random();
+            traitementObstacleL1();
+            traitementObstacleL2();
         });
         t.start(); //lancer le timer
     }
@@ -281,35 +278,36 @@ public class IHMPrincipale extends javax.swing.JFrame {
     public void jPanel1KeyPressed(KeyEvent evt) {
         if (boolJouer) {
             switch (evt.getKeyCode()) {
-                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_RIGHT -> {
                     if (xPerso < (int) (dimImage[0] * 0.84)) {
                         xPerso = (int) (xPerso + (dimImage[0] / 11));
                     }
                     System.out.println(xPerso);
-                    break;
-                case KeyEvent.VK_LEFT:
+                }
+                case KeyEvent.VK_LEFT -> {
                     if (xPerso > (int) (dimImage[0] * 0.05)) {
                         xPerso = (int) (xPerso - (dimImage[0] / 11));
                     }
-                    break;
-                case KeyEvent.VK_UP:
+                }
+                case KeyEvent.VK_UP -> {
                     if (yPerso > 40) {
                         yPerso = (int) (yPerso - (dimImage[1] / 13));
                     }
-                    break;
-                case KeyEvent.VK_DOWN:
+                }
+                case KeyEvent.VK_DOWN -> {
                     if (yPerso < ((int) dimImage[1] * 0.86)) {
                         yPerso = (int) (yPerso + (dimImage[1] / 13));
                     }
-                    break;
+                }
             }
+            traitementVictoire();
             jPanel1.repaint();
         }
     }
 
     public void traitementVictoire() {
         if (yPerso < 15) {
-            JOptionPane.showMessageDialog(this, "Félicitations ! Vous avez traversée la route !");
+            JOptionPane.showMessageDialog(this, "Félicitations ! Vous avez traversé la route !");
         }
     }
 
@@ -408,7 +406,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonNoSound.setVisible(false);
         jButtonSoundOn.setVisible(false);
         boolJouer = true;
-        traitementVictoire();
 
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
@@ -460,11 +457,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new IHMPrincipale().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new IHMPrincipale().setVisible(true);
         });
     }
 

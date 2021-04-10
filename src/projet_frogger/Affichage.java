@@ -19,8 +19,8 @@ import javax.imageio.ImageIO;
  */
 public class Affichage {
 
-    private File fichierMap = new File("src/images/map.jpg");
-    private int[] dimMap = new int[2];
+    private final File fichierMap = new File("src/images/map.jpg");
+    private final int[] dimMap = new int[2];
     private BufferedImage imageMap;
 
     public int[] dimensionImage() {
