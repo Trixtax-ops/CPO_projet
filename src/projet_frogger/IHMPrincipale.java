@@ -77,14 +77,31 @@ public class IHMPrincipale extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
-        
-        Obstacles obs1 = new Obstacles(0,
+
+        Obstacles obs1L1 = new Obstacles(0,
                 (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
-        Obstacles obs2 = new Obstacles((int) (dimImage[0] / 2),
+        Obstacles obs2L1 = new Obstacles((int) (dimImage[0] * 2 / 3),
                 (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
-        listeObs.add(obs1);
-        listeObs.add(obs2);
+        Obstacles obs3L1 = new Obstacles((int) (dimImage[0] / 3),
+                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+        listeObs.add(obs1L1);
+        listeObs.add(obs2L1);
+        listeObs.add(obs3L1);
+
+        Obstacles obs1L2 = new Obstacles(dimImage[0],
+                (int) (dimImage[1] - 3 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
+        Obstacles obs2L2 = new Obstacles(dimImage[0]/2,
+                (int) (dimImage[1] - 3 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
+        listeObs.add(obs1L2);
+        listeObs.add(obs2L2);
         
+        Obstacles obs1L3 = new Obstacles(0,
+                (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 2);
+        Obstacles obs2L3 = new Obstacles((int) (dimImage[0] * 2 / 3),
+                (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 2);
+        listeObs.add(obs1L3);
+        listeObs.add(obs2L3);
+
         Timer t = new Timer(16, (ActionEvent e) -> {
             //Random hasard = new Random();
             traitementObstacles();
@@ -338,17 +355,24 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
     public void traitementObstacles() {
         for (int i = 0; i < listeObs.size(); i++) {
-            if (listeObs.get(i).getxObstacles() < dimImage[0]) {
-                listeObs.get(i).setxObstacles(listeObs.get(i).getxObstacles() + 3);
+            if (listeObs.get(i).getxObstacles() <= dimImage[0]
+                    && listeObs.get(i).getxObstacles() >= 0) {
+                listeObs.get(i).setxObstacles(listeObs.get(i).getxObstacles() + listeObs.get(i).getVitesse());
             } else {
+                BufferedImage temp = listeObs.get(i).getImageObstacleResize();
                 listeObs.get(i).setImageObstacleResize(null);
-                listeObs.get(i).setxObstacles(0);
-                listeObs.get(i).setImageObstacleResize(Affichage.resize(imageObstacle1,
+                if (listeObs.get(i).getxObstacles() < 100) {
+                    listeObs.get(i).setxObstacles(dimImage[0]);
+                    System.out.println(listeObs.get(i).getxObstacles());
+                } else {
+                    listeObs.get(i).setxObstacles(0);
+                }
+                listeObs.get(i).setImageObstacleResize(Affichage.resize(temp,
                         (int) (dimImage[0] / 9), (int) (dimImage[1] / 12)));
             }
             if (xPerso > listeObs.get(i).getxObstacles() - 25
                     && xPerso < listeObs.get(i).getxObstacles() + (dimImage[0] / 9) - 40
-                    && yPerso > listeObs.get(i).getyObstacles() 
+                    && yPerso > listeObs.get(i).getyObstacles()
                     && yPerso < listeObs.get(i).getyObstacles() + (dimImage[1] / 12)) {
                 JOptionPane.showMessageDialog(this, "Vous avez perdu !");
                 System.exit(0);
@@ -356,21 +380,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
         }
     }
 
-    public void traitementObstacleL2() {
-        if (xObstacle2 > 0) {
-            xObstacle2 += -4;
-        } else {
-            imageObstacle2Resize = null;
-            xObstacle2 = dimImage[0];
-            imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
-        }
-        if (xPerso > xObstacle2 - 32 && xPerso < xObstacle2 + (dimImage[0] / 9) - 40
-                && yPerso > yObstacle2 && yPerso < yObstacle2 + (dimImage[1] / 12)) {
-            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
-            System.exit(0);
-        }
-
-    }
 
     private void jButtonDifficulteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDifficulteActionPerformed
         // TODO add your handling code here:
