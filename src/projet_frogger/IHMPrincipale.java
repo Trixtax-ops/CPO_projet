@@ -282,7 +282,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
                     if (xPerso < (int) (dimImage[0] * 0.84)) {
                         xPerso = (int) (xPerso + (dimImage[0] / 11));
                     }
-                    System.out.println(xPerso);
                 }
                 case KeyEvent.VK_LEFT -> {
                     if (xPerso > (int) (dimImage[0] * 0.05)) {
@@ -317,14 +316,26 @@ public class IHMPrincipale extends javax.swing.JFrame {
         } else {
             imageObstacle1Resize = null;
             xObstacle1 = 0;
-            imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+            imageObstacle1Resize = Affichage.resize(imageObstacle1,
+                    (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
         }
         if (x2Obstacle1 < dimImage[0]) {
             x2Obstacle1 += 3;
         } else {
             imageObstacle1Resize2 = null;
             x2Obstacle1 = 0;
-            imageObstacle1Resize2 = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+            imageObstacle1Resize2 = Affichage.resize(imageObstacle1,
+                    (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+        }
+        if (xPerso > xObstacle1 - 25 && xPerso < xObstacle1 + (dimImage[0] / 10) - 40
+                && yPerso > yObstacle1 && yPerso < yObstacle1 + (dimImage[1] / 12)) {
+            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
+            System.exit(0);
+        }
+        if (xPerso > x2Obstacle1 - 25 && xPerso < x2Obstacle1 + (dimImage[0] / 10) - 40
+                && yPerso > yObstacle1 && yPerso < yObstacle1 + (dimImage[1] / 12)) {
+            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
+            System.exit(0);
         }
         jPanel1.repaint();
     }
@@ -336,6 +347,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imageObstacle2Resize = null;
             xObstacle2 = dimImage[0];
             imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+        }
+        if (xPerso > xObstacle2 - 32 && xPerso < xObstacle2 + (dimImage[0] / 10) - 40
+                && yPerso > yObstacle2 && yPerso < yObstacle2 + (dimImage[1] / 12)) {
+            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
+            System.exit(0);
         }
 
     }
