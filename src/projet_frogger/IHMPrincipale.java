@@ -7,7 +7,6 @@ package projet_frogger;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,6 +37,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.setFocusable(true);
         dimImage = a.dimensionImage();
         setBounds(0, 0, 694, 730);
+        jPanel1.remove(jButtonJouer);
+        jPanel1.remove(jButtonAide);
+        jPanel1.remove(jButtonDifficulte);
         xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
         yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
         yObstacle1 = (int) ((int) dimImage[1] - 2 * (dimImage[1] / 13));
@@ -66,8 +68,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imageObstacle2 = ImageIO.read(fichierObstacle2);
             imageMapResize = Affichage.resize(imageMap, dimImage[0], dimImage[1]);
             imagePersoResize = Affichage.resize(imagePerso, dimImage[0] / 10, dimImage[1] / 13);
-            imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
-            imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+            imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
+            imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
@@ -146,7 +148,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         });
 
         jButtonFacile.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        jButtonFacile.setText("FACILE");
+        jButtonFacile.setText("Facile");
         jButtonFacile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonFacileMouseClicked(evt);
@@ -159,7 +161,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         });
 
         jButtonMoyen.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        jButtonMoyen.setText("MOYEN");
+        jButtonMoyen.setText("Moyen");
         jButtonMoyen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonMoyenMouseClicked(evt);
@@ -167,7 +169,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
         });
 
         jButtonDifficile.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        jButtonDifficile.setText("DIFFICILE");
+        jButtonDifficile.setText("Difficile");
+        jButtonDifficile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonDifficileMouseClicked(evt);
+            }
+        });
         jButtonDifficile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDifficileActionPerformed(evt);
@@ -202,6 +209,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonSoundOn.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonSoundOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bouton/sonOuvert.png"))); // NOI18N
+        jButtonSoundOn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonSoundOnMouseClicked(evt);
+            }
+        });
         jButtonSoundOn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSoundOnActionPerformed(evt);
@@ -317,7 +329,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imageObstacle1Resize = null;
             xObstacle1 = 0;
             imageObstacle1Resize = Affichage.resize(imageObstacle1,
-                    (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+                    (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
         }
         if (x2Obstacle1 < dimImage[0]) {
             x2Obstacle1 += 3;
@@ -325,14 +337,14 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imageObstacle1Resize2 = null;
             x2Obstacle1 = 0;
             imageObstacle1Resize2 = Affichage.resize(imageObstacle1,
-                    (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
+                    (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
         }
-        if (xPerso > xObstacle1 - 25 && xPerso < xObstacle1 + (dimImage[0] / 10) - 40
+        if (xPerso > xObstacle1 - 25 && xPerso < xObstacle1 + (dimImage[0] / 9) - 40
                 && yPerso > yObstacle1 && yPerso < yObstacle1 + (dimImage[1] / 12)) {
             JOptionPane.showMessageDialog(this, "Vous avez perdu !");
             System.exit(0);
         }
-        if (xPerso > x2Obstacle1 - 25 && xPerso < x2Obstacle1 + (dimImage[0] / 10) - 40
+        if (xPerso > x2Obstacle1 - 25 && xPerso < x2Obstacle1 + (dimImage[0] / 9) - 40
                 && yPerso > yObstacle1 && yPerso < yObstacle1 + (dimImage[1] / 12)) {
             JOptionPane.showMessageDialog(this, "Vous avez perdu !");
             System.exit(0);
@@ -348,7 +360,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
             xObstacle2 = dimImage[0];
             imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 10), (int) (dimImage[1] / 12));
         }
-        if (xPerso > xObstacle2 - 32 && xPerso < xObstacle2 + (dimImage[0] / 10) - 40
+        if (xPerso > xObstacle2 - 32 && xPerso < xObstacle2 + (dimImage[0] / 9) - 40
                 && yPerso > yObstacle2 && yPerso < yObstacle2 + (dimImage[1] / 12)) {
             JOptionPane.showMessageDialog(this, "Vous avez perdu !");
             System.exit(0);
@@ -361,9 +373,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDifficulteActionPerformed
 
     private void jButtonDifficulteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDifficulteMouseClicked
-        jButtonFacile.setBounds((dimImage[0] - 400) / 2, 100, 300, 75);
-        jButtonMoyen.setBounds((dimImage[0] - 400) / 2, 300, 300, 75);
-        jButtonDifficile.setBounds((dimImage[0] - 400) / 2, 500, 300, 75);
+        jButtonFacile.setBounds((dimImage[0] - 300) / 2, 100, 300, 75);
+        jButtonMoyen.setBounds((dimImage[0] - 300) / 2, 300, 300, 75);
+        jButtonDifficile.setBounds((dimImage[0] - 300) / 2, 500, 300, 75);
         jButtonJouer.setVisible(false);
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
@@ -387,11 +399,23 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDifficileActionPerformed
 
     private void jButtonMoyenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonMoyenMouseClicked
-
+        jButtonFacile.setVisible(false);
+        jButtonMoyen.setVisible(false);
+        jButtonDifficile.setVisible(false);
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
+        jButtonReglage.setVisible(true);
     }//GEN-LAST:event_jButtonMoyenMouseClicked
 
     private void jButtonFacileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFacileMouseClicked
-
+        jButtonFacile.setVisible(false);
+        jButtonMoyen.setVisible(false);
+        jButtonDifficile.setVisible(false);
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
+        jButtonReglage.setVisible(true);
     }//GEN-LAST:event_jButtonFacileMouseClicked
 
     private void jButtonReglageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReglageMouseClicked
@@ -426,7 +450,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
     private void jButtonNoSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNoSoundMouseClicked
-        // TODO add your handling code here:
+        jButtonSoundOn.setVisible(false);
+        jButtonNoSound.setVisible(false);
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
+        jButtonReglage.setVisible(true);
     }//GEN-LAST:event_jButtonNoSoundMouseClicked
 
     private void jButtonNoSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNoSoundActionPerformed
@@ -440,6 +469,25 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private void jButtonReglageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReglageActionPerformed
 
     }//GEN-LAST:event_jButtonReglageActionPerformed
+
+    private void jButtonSoundOnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSoundOnMouseClicked
+        jButtonSoundOn.setVisible(false);
+        jButtonNoSound.setVisible(false);
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
+        jButtonReglage.setVisible(true);
+    }//GEN-LAST:event_jButtonSoundOnMouseClicked
+
+    private void jButtonDifficileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDifficileMouseClicked
+        jButtonFacile.setVisible(false);
+        jButtonMoyen.setVisible(false);
+        jButtonDifficile.setVisible(false);
+        jButtonJouer.setVisible(true);
+        jButtonAide.setVisible(true);
+        jButtonDifficulte.setVisible(true);
+        jButtonReglage.setVisible(true);
+    }//GEN-LAST:event_jButtonDifficileMouseClicked
 
     /**
      * @param args the command line arguments

@@ -145,7 +145,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="48" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="FACILE"/>
+            <Property name="text" type="java.lang.String" value="Facile"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonFacileMouseClicked"/>
@@ -157,7 +157,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="48" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="MOYEN"/>
+            <Property name="text" type="java.lang.String" value="Moyen"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonMoyenMouseClicked"/>
@@ -168,9 +168,10 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="48" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="DIFFICILE"/>
+            <Property name="text" type="java.lang.String" value="Difficile"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonDifficileMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDifficileActionPerformed"/>
           </Events>
         </Component>
@@ -210,6 +211,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonSoundOnMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSoundOnActionPerformed"/>
           </Events>
         </Component>
