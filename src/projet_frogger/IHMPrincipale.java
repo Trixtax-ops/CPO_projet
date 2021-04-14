@@ -27,8 +27,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private BufferedImage imageObstacle2, imageObstacle2Resize;
     private int[] dimImage = new int[2];
     private int xPerso, yPerso;
-    private int xObstacle1, yObstacle1, x2Obstacle1, y2Obstacle1;
-    private int xObstacle2, yObstacle2;
     private boolean boolJouer;
     private ArrayList<Obstacles> listeObs = new ArrayList<>();
 
@@ -45,11 +43,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
         yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
-        yObstacle1 = (int) ((int) dimImage[1] - 2 * (dimImage[1] / 13));
-        y2Obstacle1 = (int) ((int) dimImage[1] - 2 * (dimImage[1] / 13));
-        x2Obstacle1 = (int) (dimImage[0] / 2);
-        yObstacle2 = (int) ((int) dimImage[1] - 3 * (dimImage[1] / 13));
-        xObstacle2 = (int) (dimImage[0]);
         jButtonJouer.setBounds((dimImage[0] / 2) - 150, 100, 300, 75);
         jButtonAide.setBounds((dimImage[0] / 2) - 150, 300, 300, 75);
         jButtonDifficulte.setBounds((dimImage[0] / 2) - 150, 500, 300, 75);
