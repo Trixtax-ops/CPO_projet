@@ -7,7 +7,7 @@ package projet_frogger;
 
 /**
  *
- * @author justin
+ * @author tristan
  */
 public class Main {
 

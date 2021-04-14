@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -23,13 +24,13 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private File fichierObstacle2 = new File("src/images/bouleDeFeu2.png");
     private BufferedImage imageMap, imageMapResize, imagePerso, imagePersoResize;
     private BufferedImage imageObstacle1, imageObstacle1Resize;
-    private BufferedImage imageObstacle1Resize2;
     private BufferedImage imageObstacle2, imageObstacle2Resize;
     private int[] dimImage = new int[2];
     private int xPerso, yPerso;
     private int xObstacle1, yObstacle1, x2Obstacle1, y2Obstacle1;
     private int xObstacle2, yObstacle2;
     private boolean boolJouer;
+    private ArrayList<Obstacles> listeObs = new ArrayList<>();
 
     public IHMPrincipale() {
         initComponents();
@@ -37,9 +38,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.setFocusable(true);
         dimImage = a.dimensionImage();
         setBounds(0, 0, 694, 730);
+
         jPanel1.remove(jButtonJouer);
         jPanel1.remove(jButtonAide);
         jPanel1.remove(jButtonDifficulte);
+
         xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
         yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
         yObstacle1 = (int) ((int) dimImage[1] - 2 * (dimImage[1] / 13));
@@ -51,6 +54,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setBounds((dimImage[0] / 2) - 150, 300, 300, 75);
         jButtonDifficulte.setBounds((dimImage[0] / 2) - 150, 500, 300, 75);
         jButtonReglage.setBounds(dimImage[0] - 50, dimImage[1] - 50, 50, 50);
+
         jPanel1.add(jButtonJouer);
         jPanel1.add(jButtonAide);
         jPanel1.add(jButtonDifficulte);
@@ -73,10 +77,18 @@ public class IHMPrincipale extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
+        
+        Obstacles obs1 = new Obstacles(0,
+                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+        Obstacles obs2 = new Obstacles((int) (dimImage[0] / 2),
+                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+        listeObs.add(obs1);
+        listeObs.add(obs2);
+        
         Timer t = new Timer(16, (ActionEvent e) -> {
             //Random hasard = new Random();
-            traitementObstacleL1();
-            traitementObstacleL2();
+            traitementObstacles();
+            jPanel1.repaint();
         });
         t.start(); //lancer le timer
     }
@@ -95,9 +107,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
             {
                 g.drawImage(imageMapResize, 0, 0, null);
                 g.drawImage(imagePersoResize, xPerso, yPerso, null);
-                g.drawImage(imageObstacle1Resize, xObstacle1, yObstacle1, null);
-                g.drawImage(imageObstacle1Resize2, x2Obstacle1, y2Obstacle1, null);
-                g.drawImage(imageObstacle2Resize, xObstacle2, yObstacle2, null);
+                for (int i = 0; i < listeObs.size(); i++) {
+                    g.drawImage(listeObs.get(i).getImageObstacleResize(),
+                        listeObs.get(i).getxObstacles(),
+                        listeObs.get(i).getyObstacles(), null);
+                }
             }
         }
         ;
@@ -322,34 +336,24 @@ public class IHMPrincipale extends javax.swing.JFrame {
         }
     }
 
-    public void traitementObstacleL1() {
-        if (xObstacle1 < dimImage[0]) {
-            xObstacle1 += 3;
-        } else {
-            imageObstacle1Resize = null;
-            xObstacle1 = 0;
-            imageObstacle1Resize = Affichage.resize(imageObstacle1,
-                    (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
+    public void traitementObstacles() {
+        for (int i = 0; i < listeObs.size(); i++) {
+            if (listeObs.get(i).getxObstacles() < dimImage[0]) {
+                listeObs.get(i).setxObstacles(listeObs.get(i).getxObstacles() + 3);
+            } else {
+                listeObs.get(i).setImageObstacleResize(null);
+                listeObs.get(i).setxObstacles(0);
+                listeObs.get(i).setImageObstacleResize(Affichage.resize(imageObstacle1,
+                        (int) (dimImage[0] / 9), (int) (dimImage[1] / 12)));
+            }
+            if (xPerso > listeObs.get(i).getxObstacles() - 25
+                    && xPerso < listeObs.get(i).getxObstacles() + (dimImage[0] / 9) - 40
+                    && yPerso > listeObs.get(i).getyObstacles() 
+                    && yPerso < listeObs.get(i).getyObstacles() + (dimImage[1] / 12)) {
+                JOptionPane.showMessageDialog(this, "Vous avez perdu !");
+                System.exit(0);
+            }
         }
-        if (x2Obstacle1 < dimImage[0]) {
-            x2Obstacle1 += 3;
-        } else {
-            imageObstacle1Resize2 = null;
-            x2Obstacle1 = 0;
-            imageObstacle1Resize2 = Affichage.resize(imageObstacle1,
-                    (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
-        }
-        if (xPerso > xObstacle1 - 25 && xPerso < xObstacle1 + (dimImage[0] / 9) - 40
-                && yPerso > yObstacle1 && yPerso < yObstacle1 + (dimImage[1] / 12)) {
-            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
-            System.exit(0);
-        }
-        if (xPerso > x2Obstacle1 - 25 && xPerso < x2Obstacle1 + (dimImage[0] / 9) - 40
-                && yPerso > yObstacle1 && yPerso < yObstacle1 + (dimImage[1] / 12)) {
-            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
-            System.exit(0);
-        }
-        jPanel1.repaint();
     }
 
     public void traitementObstacleL2() {
