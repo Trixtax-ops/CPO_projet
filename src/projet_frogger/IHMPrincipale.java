@@ -22,16 +22,19 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private File fichierPerso = new File("src/images/perso1.png");
     private File fichierObstacle1 = new File("src/images/bouleDeFeu.png");
     private File fichierObstacle2 = new File("src/images/bouleDeFeu2.png");
+    private File fichierExclamation = new File("src/images/exclamation.png");
     private File fichierRocket = new File("src/images/rocket.png");
     private BufferedImage imageMap, imageMapResize, imagePerso, imagePersoResize;
     private BufferedImage imageObstacle1, imageObstacle1Resize;
     private BufferedImage imageObstacle2, imageObstacle2Resize;
     private BufferedImage imageRocket, imageRocketResize;
+    private BufferedImage imageExclamation, imageExclamationResize;
     private int[] dimImage = new int[2];
     private int xPerso, yPerso;
     private boolean boolJouer;
     private ArrayList<Obstacles> listeObs = new ArrayList<>();
-    private int xObstacleM, yObstacleM, vitesseM = 2;
+    private BufferedImage imageExclamationAff = null;
+    private int xObstacleM, vitesseM = 2;
     private Timer t;
 
     public IHMPrincipale() {
@@ -68,11 +71,13 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imagePerso = ImageIO.read(fichierPerso);
             imageObstacle1 = ImageIO.read(fichierObstacle1);
             imageObstacle2 = ImageIO.read(fichierObstacle2);
+            imageExclamation = ImageIO.read(fichierExclamation);
             imageRocket = ImageIO.read(fichierRocket);
             imageMapResize = Affichage.resize(imageMap, dimImage[0], dimImage[1]);
             imagePersoResize = Affichage.resize(imagePerso, dimImage[0] / 10, dimImage[1] / 13);
             imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
             imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
+            imageExclamationResize = Affichage.resize(imageExclamation, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
             imageRocketResize = Affichage.resize(imageRocket, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
@@ -120,7 +125,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
         listeObs.add(obs2L5);
 
         xObstacleM = -80;
-        yObstacleM = (int) dimImage[1] - 7 * (dimImage[1] / 13) + 10;
 
         t = new Timer(16, (ActionEvent e) -> {
             traitementObstacles();
@@ -144,7 +148,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
             {
                 g.drawImage(imageMapResize, 0, 0, null);
                 g.drawImage(imagePersoResize, xPerso, yPerso, null);
-                g.drawImage(imageRocketResize, xObstacleM, yObstacleM, null);
+                g.drawImage(imageRocketResize, xObstacleM, (int) dimImage[1] - 7 * (dimImage[1] / 13) + 10, null);
+                g.drawImage(imageExclamationAff, -20, (int) dimImage[1] - 7 * (dimImage[1] / 13) + 10, null);
                 for (int i = 0; i < listeObs.size(); i++) {
                     g.drawImage(listeObs.get(i).getImageObstacleResize(),
                         listeObs.get(i).getxObstacles(),
@@ -404,6 +409,13 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
     public void traitementMilieu() {
 
+        if (yPerso <= (int) dimImage[1] - 5.8 * (dimImage[1] / 13)
+                && yPerso >= (int) dimImage[1] - 6 * (dimImage[1] / 13) 
+                && xObstacleM == -80) {
+            imageExclamationAff = imageExclamationResize;
+        } else {
+            imageExclamationAff = null;
+        }
         if (yPerso <= (int) dimImage[1] - 6.8 * (dimImage[1] / 13)
                 && yPerso >= (int) dimImage[1] - 7 * (dimImage[1] / 13)
                 && xObstacleM < dimImage[0] + 50) {
@@ -411,7 +423,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         } else {
             if (xObstacleM != -80 && xObstacleM < dimImage[0] + 50) {
                 xObstacleM += vitesseM;
-            } else{
+            } else {
                 xObstacleM = -80;
             }
         }
