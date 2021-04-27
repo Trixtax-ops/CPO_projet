@@ -24,11 +24,15 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private File fichierObstacle2 = new File("src/images/bouleDeFeu2.png");
     private File fichierExclamation = new File("src/images/exclamation.png");
     private File fichierRocket = new File("src/images/rocket.png");
+    private File fichierRadeau1 = new File("src/images/navette3.png");
+    private File fichierRadeau2 = new File("src/images/navette3.2.png");
     private BufferedImage imageMap, imageMapResize, imagePerso, imagePersoResize;
     private BufferedImage imageObstacle1, imageObstacle1Resize;
     private BufferedImage imageObstacle2, imageObstacle2Resize;
     private BufferedImage imageRocket, imageRocketResize;
     private BufferedImage imageExclamation, imageExclamationResize;
+    private BufferedImage imageRadeau1, imageRadeau1Resize;
+    private BufferedImage imageRadeau2, imageRadeau2Resize;
     private int[] dimImage = new int[2];
     private int xPerso, yPerso;
     private boolean boolJouer;
@@ -36,6 +40,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private BufferedImage imageExclamationAff = null;
     private int xObstacleM, vitesseM = 2;
     private Timer t;
+    private ArrayList<Radeaux> listeRad = new ArrayList<>();
+    boolean boolRad = true;
 
     public IHMPrincipale() {
         initComponents();
@@ -73,12 +79,16 @@ public class IHMPrincipale extends javax.swing.JFrame {
             imageObstacle2 = ImageIO.read(fichierObstacle2);
             imageExclamation = ImageIO.read(fichierExclamation);
             imageRocket = ImageIO.read(fichierRocket);
+            imageRadeau1 = ImageIO.read(fichierRadeau1);
+            imageRadeau2 = ImageIO.read(fichierRadeau2);
             imageMapResize = Affichage.resize(imageMap, dimImage[0], dimImage[1]);
             imagePersoResize = Affichage.resize(imagePerso, dimImage[0] / 10, dimImage[1] / 13);
             imageObstacle1Resize = Affichage.resize(imageObstacle1, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
             imageObstacle2Resize = Affichage.resize(imageObstacle2, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
             imageExclamationResize = Affichage.resize(imageExclamation, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
             imageRocketResize = Affichage.resize(imageRocket, (int) (dimImage[0] / 9), (int) (dimImage[1] / 12));
+            imageRadeau1Resize = Affichage.resize(imageRadeau1, (int) (dimImage[0] / 9) + 40, (int) (dimImage[1] / 12));
+            imageRadeau2Resize = Affichage.resize(imageRadeau2, (int) (dimImage[0] / 9) + 40, (int) (dimImage[1] / 12));
         } catch (IOException ex) {
             System.out.println("fichier introuvable");
         }
@@ -102,7 +112,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         Obstacles obs1L3 = new Obstacles(-50,
                 (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 4);
-        Obstacles obs2L3 = new Obstacles((int) (dimImage[0] * 2 / 3) - 50,
+        Obstacles obs2L3 = new Obstacles((int) (dimImage[0] / 2) - 50,
                 (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 4);
         listeObs.add(obs1L3);
         listeObs.add(obs2L3);
@@ -119,16 +129,61 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         Obstacles obs1L5 = new Obstacles(-50,
                 (int) dimImage[1] - 6 * (dimImage[1] / 13), imageObstacle1Resize, 3);
-        Obstacles obs2L5 = new Obstacles((int) (dimImage[0] * 2 / 3) - 50,
+        Obstacles obs2L5 = new Obstacles((int) (dimImage[0] / 2) - 50,
                 (int) dimImage[1] - 6 * (dimImage[1] / 13), imageObstacle1Resize, 3);
         listeObs.add(obs1L5);
         listeObs.add(obs2L5);
 
         xObstacleM = -80;
 
+        Radeaux rad1L1 = new Radeaux(-100,
+                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+        Radeaux rad2L1 = new Radeaux((int) ((dimImage[0] + 100) * 2 / 3) - 100,
+                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+        Radeaux rad3L1 = new Radeaux((int) ((dimImage[0] + 100) / 3) - 100,
+                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+        listeRad.add(rad1L1);
+        listeRad.add(rad2L1);
+        listeRad.add(rad3L1);
+
+        Radeaux rad1L2 = new Radeaux(-100,
+                (int) dimImage[1] - 9 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+        Radeaux rad2L2 = new Radeaux((int) ((dimImage[0] + 100) / 2) - 100,
+                (int) dimImage[1] - 9 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+        listeRad.add(rad1L2);
+        listeRad.add(rad2L2);
+
+        Radeaux rad1L3 = new Radeaux(-100,
+                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 4);
+        Radeaux rad2L3 = new Radeaux((int) ((dimImage[0] + 100) * 2 / 3) - 100,
+                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 4);
+        Radeaux rad3L3 = new Radeaux((int) ((dimImage[0] + 100) / 3) - 100,
+                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 4);
+        listeRad.add(rad1L3);
+        listeRad.add(rad2L3);
+        listeRad.add(rad3L3);
+
+        Radeaux rad1L4 = new Radeaux(-100,
+                (int) dimImage[1] - 11 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+        Radeaux rad2L4 = new Radeaux((int) ((dimImage[0] + 100) / 3) - 100,
+                (int) dimImage[1] - 11 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+        Radeaux rad3L4 = new Radeaux((int) ((dimImage[0] + 100) * 2 / 3) - 100,
+                (int) dimImage[1] - 11 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+        listeRad.add(rad1L4);
+        listeRad.add(rad2L4);
+        listeRad.add(rad3L4);
+
+        Radeaux rad1L5 = new Radeaux(-100,
+                (int) dimImage[1] - 12 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+        Radeaux rad2L5 = new Radeaux((int) ((dimImage[0] + 100) / 2) - 100,
+                (int) dimImage[1] - 12 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+        listeRad.add(rad1L5);
+        listeRad.add(rad2L5);
+
         t = new Timer(16, (ActionEvent e) -> {
             traitementObstacles();
             traitementMilieu();
+            traitementRadeaux();
             jPanel1.repaint();
         });
         t.start(); //lancer le timer
@@ -147,6 +202,11 @@ public class IHMPrincipale extends javax.swing.JFrame {
             public void paintComponent(Graphics g)
             {
                 g.drawImage(imageMapResize, 0, 0, null);
+                for (int i = 0; i < listeRad.size(); i++) {
+                    g.drawImage(listeRad.get(i).getImageRadeauxResize(),
+                        listeRad.get(i).getxRadeaux(),
+                        listeRad.get(i).getyRadeaux(), null);
+                }
                 g.drawImage(imagePersoResize, xPerso, yPerso, null);
                 g.drawImage(imageRocketResize, xObstacleM, (int) dimImage[1] - 7 * (dimImage[1] / 13) + 10, null);
                 g.drawImage(imageExclamationAff, -20, (int) dimImage[1] - 7 * (dimImage[1] / 13) + 10, null);
@@ -155,7 +215,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
                         listeObs.get(i).getxObstacles(),
                         listeObs.get(i).getyObstacles(), null);
                 }
-
             }
         }
         ;
@@ -377,6 +436,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
     public void traitementVictoire() {
         if (yPerso < 15) {
             JOptionPane.showMessageDialog(this, "Félicitations ! Vous avez traversé la route !");
+            xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
+            yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
         }
     }
 
@@ -410,7 +471,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
     public void traitementMilieu() {
 
         if (yPerso <= (int) dimImage[1] - 5.8 * (dimImage[1] / 13)
-                && yPerso >= (int) dimImage[1] - 6 * (dimImage[1] / 13) 
+                && yPerso >= (int) dimImage[1] - 6 * (dimImage[1] / 13)
                 && xObstacleM == -80) {
             imageExclamationAff = imageExclamationResize;
         } else {
@@ -437,6 +498,48 @@ public class IHMPrincipale extends javax.swing.JFrame {
             yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
         }
 
+    }
+
+    public void traitementRadeaux() {
+        for (int i = 0; i < listeRad.size(); i++) {
+            if (listeRad.get(i).getxRadeaux() <= dimImage[0]
+                    && listeRad.get(i).getxRadeaux() >= -100) {
+                listeRad.get(i).setxRadeaux(listeRad.get(i).getxRadeaux() + listeRad.get(i).getVitesse());
+            } else {
+                BufferedImage temp = listeRad.get(i).getImageRadeauxResize();
+                listeRad.get(i).setImageRadeauxResize(null);
+                if (listeRad.get(i).getxRadeaux() < 100) {
+                    listeRad.get(i).setxRadeaux(dimImage[0]);
+                } else {
+                    listeRad.get(i).setxRadeaux(-100);
+                }
+                listeRad.get(i).setImageRadeauxResize(Affichage.resize(temp,
+                        (int) (dimImage[0] / 9) + 40, (int) (dimImage[1] / 12)));
+            }
+            if (yPerso > dimImage[1] - 13 * (dimImage[1] / 14)
+                    && yPerso < dimImage[1] - 7.6 * (dimImage[1] / 14)) {
+                for (int j = 0; j < listeRad.size(); j++) {
+                    if (xPerso > listeRad.get(j).getxRadeaux() - 30
+                            && xPerso < listeRad.get(j).getxRadeaux() + (dimImage[0] / 9) - 10
+                            && yPerso > listeRad.get(j).getyRadeaux()
+                            && yPerso < listeRad.get(j).getyRadeaux() + (dimImage[1] / 12)) {
+                        boolRad = false;
+                    }
+                }
+                if (boolRad) {
+                    JOptionPane.showMessageDialog(this, "Vous avez perdu !");
+                    xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
+                    yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
+                }
+                if (xPerso > listeRad.get(i).getxRadeaux() - 30
+                        && xPerso < listeRad.get(i).getxRadeaux() + (dimImage[0] / 9) - 10
+                        && yPerso > listeRad.get(i).getyRadeaux()
+                        && yPerso < listeRad.get(i).getyRadeaux() + (dimImage[1] / 12)) {
+                    xPerso += listeRad.get(i).getVitesse();
+                }
+            }
+        }
+        boolRad = true;
     }
 
 
