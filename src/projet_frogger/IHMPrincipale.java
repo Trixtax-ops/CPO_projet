@@ -11,8 +11,14 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -38,10 +44,14 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private boolean boolJouer;
     private ArrayList<Obstacles> listeObs = new ArrayList<>();
     private BufferedImage imageExclamationAff = null;
-    private int xObstacleM, vitesseM = 2;
+    private int xObstacleM, vitesseM = 3;
     private Timer t;
     private ArrayList<Radeaux> listeRad = new ArrayList<>();
-    boolean boolRad = true;
+    private boolean boolRad = true;
+    private Clip clip;
+    private AudioInputStream audioIn;
+    private int difficulte = 2;
+    private int compteurVie = 3;
 
     public IHMPrincipale() {
         initComponents();
@@ -54,6 +64,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.remove(jButtonAide);
         jPanel1.remove(jButtonDifficulte);
         jPanel1.remove(jButtonReglage);
+        jPanel1.remove(jLabelCompteur);
 
         xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
         yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
@@ -94,91 +105,90 @@ public class IHMPrincipale extends javax.swing.JFrame {
         }
 
         Obstacles obs1L1 = new Obstacles(-50,
-                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 4);
         Obstacles obs2L1 = new Obstacles((int) (dimImage[0] * 2 / 3) - 50,
-                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 4);
         Obstacles obs3L1 = new Obstacles((int) (dimImage[0] / 3) - 50,
-                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+                (int) dimImage[1] - 2 * (dimImage[1] / 13), imageObstacle1Resize, 4);
         listeObs.add(obs1L1);
         listeObs.add(obs2L1);
         listeObs.add(obs3L1);
 
         Obstacles obs1L2 = new Obstacles(dimImage[0],
-                (int) (dimImage[1] - 3 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
+                (int) (dimImage[1] - 3 * (dimImage[1] / 13)), imageObstacle2Resize, -4);
         Obstacles obs2L2 = new Obstacles(dimImage[0] / 2,
-                (int) (dimImage[1] - 3 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
+                (int) (dimImage[1] - 3 * (dimImage[1] / 13)), imageObstacle2Resize, -4);
         listeObs.add(obs1L2);
         listeObs.add(obs2L2);
 
         Obstacles obs1L3 = new Obstacles(-50,
-                (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 4);
+                (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 5);
         Obstacles obs2L3 = new Obstacles((int) (dimImage[0] / 2) - 50,
-                (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 4);
+                (int) dimImage[1] - 4 * (dimImage[1] / 13), imageObstacle1Resize, 5);
         listeObs.add(obs1L3);
         listeObs.add(obs2L3);
 
         Obstacles obs1L4 = new Obstacles(dimImage[0],
-                (int) (dimImage[1] - 5 * (dimImage[1] / 13)), imageObstacle2Resize, -2);
+                (int) (dimImage[1] - 5 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
         Obstacles obs2L4 = new Obstacles(dimImage[0] * 2 / 3,
-                (int) (dimImage[1] - 5 * (dimImage[1] / 13)), imageObstacle2Resize, -2);
+                (int) (dimImage[1] - 5 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
         Obstacles obs3L4 = new Obstacles(dimImage[0] / 3,
-                (int) (dimImage[1] - 5 * (dimImage[1] / 13)), imageObstacle2Resize, -2);
+                (int) (dimImage[1] - 5 * (dimImage[1] / 13)), imageObstacle2Resize, -3);
         listeObs.add(obs1L4);
         listeObs.add(obs2L4);
         listeObs.add(obs3L4);
 
         Obstacles obs1L5 = new Obstacles(-50,
-                (int) dimImage[1] - 6 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+                (int) dimImage[1] - 6 * (dimImage[1] / 13), imageObstacle1Resize, 4);
         Obstacles obs2L5 = new Obstacles((int) (dimImage[0] / 2) - 50,
-                (int) dimImage[1] - 6 * (dimImage[1] / 13), imageObstacle1Resize, 3);
+                (int) dimImage[1] - 6 * (dimImage[1] / 13), imageObstacle1Resize, 4);
         listeObs.add(obs1L5);
         listeObs.add(obs2L5);
 
         xObstacleM = -80;
 
         Radeaux rad1L1 = new Radeaux(-100,
-                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 4);
         Radeaux rad2L1 = new Radeaux((int) ((dimImage[0] + 100) * 2 / 3) - 100,
-                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 4);
         Radeaux rad3L1 = new Radeaux((int) ((dimImage[0] + 100) / 3) - 100,
-                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+                (int) dimImage[1] - 8 * (dimImage[1] / 13), imageRadeau1Resize, 4);
         listeRad.add(rad1L1);
         listeRad.add(rad2L1);
         listeRad.add(rad3L1);
 
         Radeaux rad1L2 = new Radeaux(-100,
-                (int) dimImage[1] - 9 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+                (int) dimImage[1] - 9 * (dimImage[1] / 13), imageRadeau2Resize, -3);
         Radeaux rad2L2 = new Radeaux((int) ((dimImage[0] + 100) / 2) - 100,
-                (int) dimImage[1] - 9 * (dimImage[1] / 13), imageRadeau2Resize, -2);
+                (int) dimImage[1] - 9 * (dimImage[1] / 13), imageRadeau2Resize, -3);
         listeRad.add(rad1L2);
         listeRad.add(rad2L2);
 
         Radeaux rad1L3 = new Radeaux(-100,
-                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 4);
+                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 5);
         Radeaux rad2L3 = new Radeaux((int) ((dimImage[0] + 100) * 2 / 3) - 100,
-                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 4);
+                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 5);
         Radeaux rad3L3 = new Radeaux((int) ((dimImage[0] + 100) / 3) - 100,
-                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 4);
+                (int) dimImage[1] - 10 * (dimImage[1] / 13), imageRadeau1Resize, 5);
         listeRad.add(rad1L3);
         listeRad.add(rad2L3);
         listeRad.add(rad3L3);
 
         Radeaux rad1L4 = new Radeaux(-100,
                 (int) dimImage[1] - 11 * (dimImage[1] / 13), imageRadeau2Resize, -2);
-        Radeaux rad2L4 = new Radeaux((int) ((dimImage[0] + 100) / 3) - 100,
-                (int) dimImage[1] - 11 * (dimImage[1] / 13), imageRadeau2Resize, -2);
-        Radeaux rad3L4 = new Radeaux((int) ((dimImage[0] + 100) * 2 / 3) - 100,
+        Radeaux rad2L4 = new Radeaux((int) ((dimImage[0] + 100) / 2) - 100,
                 (int) dimImage[1] - 11 * (dimImage[1] / 13), imageRadeau2Resize, -2);
         listeRad.add(rad1L4);
         listeRad.add(rad2L4);
-        listeRad.add(rad3L4);
 
         Radeaux rad1L5 = new Radeaux(-100,
-                (int) dimImage[1] - 12 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+                (int) dimImage[1] - 12 * (dimImage[1] / 13), imageRadeau1Resize, 4);
         Radeaux rad2L5 = new Radeaux((int) ((dimImage[0] + 100) / 2) - 100,
-                (int) dimImage[1] - 12 * (dimImage[1] / 13), imageRadeau1Resize, 3);
+                (int) dimImage[1] - 12 * (dimImage[1] / 13), imageRadeau1Resize, 4);
         listeRad.add(rad1L5);
         listeRad.add(rad2L5);
+
+        traitementMusique(true);
 
         t = new Timer(16, (ActionEvent e) -> {
             traitementObstacles();
@@ -227,6 +237,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonJouer = new javax.swing.JButton();
         jButtonNoSound = new javax.swing.JButton();
         jButtonSoundOn = new javax.swing.JButton();
+        jLabelCompteur = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -337,6 +348,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
             }
         });
 
+        jLabelCompteur.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabelCompteur.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -362,7 +376,10 @@ public class IHMPrincipale extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButtonNoSound, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonSoundOn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelCompteur, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +391,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
                             .addComponent(jButtonMoyen)
                             .addComponent(jButtonAide)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
+                        .addComponent(jLabelCompteur, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonFacile)
                             .addComponent(jButtonJouer)
@@ -433,6 +451,24 @@ public class IHMPrincipale extends javax.swing.JFrame {
         }
     }
 
+    public void traitementDefaite() {
+        JOptionPane.showMessageDialog(this, "Vous avez perdu une vie!");
+        compteurVie -= 1;
+        if (compteurVie == 0) {
+            JOptionPane.showMessageDialog(this, "Vous avez perdu la partie!");
+            compteurVie = 3;
+            jLabelCompteur.setVisible(false);
+            boolJouer = false;
+            jButtonJouer.setVisible(true);
+            jButtonAide.setVisible(true);
+            jButtonDifficulte.setVisible(true);
+            jButtonReglage.setVisible(true);
+        }
+        jLabelCompteur.setText(Integer.toString(compteurVie));
+        xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
+        yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
+    }
+
     public void traitementVictoire() {
         if (yPerso < 15) {
             JOptionPane.showMessageDialog(this, "Félicitations ! Vous avez traversé la route !");
@@ -461,9 +497,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
                     && xPerso < listeObs.get(i).getxObstacles() + (dimImage[0] / 9) - 40
                     && yPerso > listeObs.get(i).getyObstacles()
                     && yPerso < listeObs.get(i).getyObstacles() + (dimImage[1] / 12)) {
-                JOptionPane.showMessageDialog(this, "Vous avez perdu !");
-                xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
-                yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
+                traitementDefaite();
             }
         }
     }
@@ -493,9 +527,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
                 && xPerso < xObstacleM + 50
                 && yPerso > (int) dimImage[1] - 7 * (dimImage[1] / 13)
                 && yPerso < (int) dimImage[1] - 6.8 * (dimImage[1] / 13)) {
-            JOptionPane.showMessageDialog(this, "Vous avez perdu !");
-            xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
-            yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
+            traitementDefaite();
         }
 
     }
@@ -527,9 +559,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
                     }
                 }
                 if (boolRad) {
-                    JOptionPane.showMessageDialog(this, "Vous avez perdu !");
-                    xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
-                    yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
+                    traitementDefaite();
                 }
                 if (xPerso > listeRad.get(i).getxRadeaux() - 30
                         && xPerso < listeRad.get(i).getxRadeaux() + (dimImage[0] / 9) - 10
@@ -540,6 +570,28 @@ public class IHMPrincipale extends javax.swing.JFrame {
             }
         }
         boolRad = true;
+    }
+
+    public void traitementMusique(boolean boolMusique) {
+
+        long clipTime = 0;
+
+        if (boolMusique) {
+            try {
+                URL url = IHMPrincipale.class.getClassLoader().getResource("musique/frogger-theme.wav");
+                audioIn = AudioSystem.getAudioInputStream(url);
+                clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                clip.setMicrosecondPosition(clipTime);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            clipTime = clip.getMicrosecondPosition();
+            clip.stop();
+        }
+
     }
 
 
@@ -555,8 +607,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(false);
         jButtonDifficulte.setVisible(false);
         jButtonReglage.setVisible(false);
-        jButtonNoSound.setVisible(false);
-        jButtonSoundOn.setVisible(false);
+        jButtonFacile.setVisible(true);
+        jButtonMoyen.setVisible(true);
+        jButtonDifficile.setVisible(true);
 
         jPanel1.add(jButtonFacile);
         jPanel1.add(jButtonMoyen);
@@ -581,6 +634,42 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(true);
         jButtonDifficulte.setVisible(true);
         jButtonReglage.setVisible(true);
+
+        if (difficulte == 1) {
+            for (int i = 0; i < listeObs.size(); i++) {
+                if (listeObs.get(i).getVitesse() > 0) {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() + 2);
+                } else {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() - 2);
+                }
+            }
+            for (int i = 0; i < listeRad.size(); i++) {
+                if (listeRad.get(i).getVitesse() > 0) {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() + 2);
+                } else {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() - 2);
+                }
+            }
+            vitesseM += 2;
+        }
+        if (difficulte == 3) {
+            for (int i = 0; i < listeObs.size(); i++) {
+                if (listeObs.get(i).getVitesse() > 0) {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() - 3);
+                } else {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() + 3);
+                }
+            }
+            for (int i = 0; i < listeRad.size(); i++) {
+                if (listeRad.get(i).getVitesse() > 0) {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() - 3);
+                } else {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() + 3);
+                }
+            }
+            vitesseM -= 2;
+        }
+        difficulte = 2;
     }//GEN-LAST:event_jButtonMoyenMouseClicked
 
     private void jButtonFacileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFacileMouseClicked
@@ -591,6 +680,42 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(true);
         jButtonDifficulte.setVisible(true);
         jButtonReglage.setVisible(true);
+
+        if (difficulte == 2) {
+            for (int i = 0; i < listeObs.size(); i++) {
+                if (listeObs.get(i).getVitesse() > 0) {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() - 2);
+                } else {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() + 2);
+                }
+            }
+            for (int i = 0; i < listeRad.size(); i++) {
+                if (listeRad.get(i).getVitesse() > 0) {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() - 2);
+                } else {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() + 2);
+                }
+            }
+            vitesseM -= 2;
+        }
+        if (difficulte == 3) {
+            for (int i = 0; i < listeObs.size(); i++) {
+                if (listeObs.get(i).getVitesse() > 0) {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() - 5);
+                } else {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() + 5);
+                }
+            }
+            for (int i = 0; i < listeRad.size(); i++) {
+                if (listeRad.get(i).getVitesse() > 0) {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() - 5);
+                } else {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() + 5);
+                }
+            }
+            vitesseM -= 4;
+        }
+        difficulte = 1;
     }//GEN-LAST:event_jButtonFacileMouseClicked
 
     private void jButtonReglageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReglageMouseClicked
@@ -620,7 +745,12 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonReglage.setVisible(false);
         jButtonNoSound.setVisible(false);
         jButtonSoundOn.setVisible(false);
+
         boolJouer = true;
+        jLabelCompteur.setBounds(dimImage[0] - 25, 0, 50, 50);
+        jLabelCompteur.setVisible(true);
+        jPanel1.add(jLabelCompteur);
+        jLabelCompteur.setText(Integer.toString(compteurVie));
 
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
@@ -631,6 +761,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(true);
         jButtonDifficulte.setVisible(true);
         jButtonReglage.setVisible(true);
+
+        traitementMusique(false);
     }//GEN-LAST:event_jButtonNoSoundMouseClicked
 
     private void jButtonNoSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNoSoundActionPerformed
@@ -652,6 +784,8 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(true);
         jButtonDifficulte.setVisible(true);
         jButtonReglage.setVisible(true);
+
+        traitementMusique(true);
     }//GEN-LAST:event_jButtonSoundOnMouseClicked
 
     private void jButtonDifficileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDifficileMouseClicked
@@ -662,6 +796,42 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonAide.setVisible(true);
         jButtonDifficulte.setVisible(true);
         jButtonReglage.setVisible(true);
+
+        if (difficulte == 1) {
+            for (int i = 0; i < listeObs.size(); i++) {
+                if (listeObs.get(i).getVitesse() > 0) {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() + 5);
+                } else {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() - 5);
+                }
+            }
+            for (int i = 0; i < listeRad.size(); i++) {
+                if (listeRad.get(i).getVitesse() > 0) {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() + 5);
+                } else {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() - 5);
+                }
+            }
+            vitesseM += 4;
+        }
+        if (difficulte == 2) {
+            for (int i = 0; i < listeObs.size(); i++) {
+                if (listeObs.get(i).getVitesse() > 0) {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() + 3);
+                } else {
+                    listeObs.get(i).setVitesse(listeObs.get(i).getVitesse() - 3);
+                }
+            }
+            for (int i = 0; i < listeRad.size(); i++) {
+                if (listeRad.get(i).getVitesse() > 0) {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() + 3);
+                } else {
+                    listeRad.get(i).setVitesse(listeRad.get(i).getVitesse() - 3);
+                }
+            }
+            vitesseM += 2;
+        }
+        difficulte = 3;
     }//GEN-LAST:event_jButtonDifficileMouseClicked
 
     /**
@@ -712,6 +882,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNoSound;
     private javax.swing.JButton jButtonReglage;
     private javax.swing.JButton jButtonSoundOn;
+    private javax.swing.JLabel jLabelCompteur;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

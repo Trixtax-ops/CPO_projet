@@ -15,5 +15,4 @@ public class Main {
         IHMPrincipale IHM = new IHMPrincipale();
         IHM.setVisible(true);
     }
-
 }

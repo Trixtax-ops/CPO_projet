@@ -6,7 +6,6 @@
 package projet_frogger;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  *
