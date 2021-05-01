@@ -21,10 +21,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
-import static javax.swing.GroupLayout.Alignment.CENTER;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class IHMPrincipale extends javax.swing.JFrame {
