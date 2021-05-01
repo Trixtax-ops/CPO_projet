@@ -44,17 +44,25 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jButtonDifficile" min="-2" pref="73" max="-2" attributes="0"/>
-                      <Component id="jButtonFacile" min="-2" pref="73" max="-2" attributes="0"/>
-                      <Component id="jButtonMoyen" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButtonAide" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
-                      <Component id="jButtonJouer" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
-                      <Component id="jButtonDifficulte" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jButtonDifficile" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="jButtonFacile" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="jButtonMoyen" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jButtonAide" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="jButtonJouer" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="jButtonDifficulte" alignment="1" min="-2" pref="73" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
+                          <Component id="jPanelAide" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
@@ -88,6 +96,8 @@
                               <Component id="jButtonMoyen" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonAide" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                          <Component id="jPanelAide" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabelCompteur" min="-2" pref="33" max="-2" attributes="0"/>
@@ -121,6 +131,10 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Aide"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonAideMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAideActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonDifficulte">
           <Properties>
@@ -230,6 +244,55 @@
             </Property>
           </Properties>
         </Component>
+        <Container class="javax.swing.JPanel" name="jPanelAide">
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabelAide" alignment="1" min="-2" pref="62" max="-2" attributes="0"/>
+                          <Component id="jButtonAideOk" min="-2" pref="73" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="77" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                      <Component id="jLabelAide" min="-2" pref="56" max="-2" attributes="0"/>
+                      <EmptySpace pref="34" max="32767" attributes="0"/>
+                      <Component id="jButtonAideOk" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="jButtonAideOk">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="48" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ok"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonAideOkMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAideOkActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelAide">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="24" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

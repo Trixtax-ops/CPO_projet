@@ -5,6 +5,7 @@
  */
 package projet_frogger;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -19,7 +20,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
+import static javax.swing.GroupLayout.Alignment.CENTER;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class IHMPrincipale extends javax.swing.JFrame {
@@ -65,6 +70,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.remove(jButtonDifficulte);
         jPanel1.remove(jButtonReglage);
         jPanel1.remove(jLabelCompteur);
+        jPanel1.remove(jPanelAide);
+        jPanel1.remove(jButtonAideOk);
+        jPanel1.remove(jLabelAide);
 
         xPerso = (int) (dimImage[0] / 2 - (dimImage[0] / 10) / 2);
         yPerso = (int) (dimImage[1] - (dimImage[1] / 14));
@@ -238,6 +246,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jButtonNoSound = new javax.swing.JButton();
         jButtonSoundOn = new javax.swing.JButton();
         jLabelCompteur = new javax.swing.JLabel();
+        jPanelAide = new javax.swing.JPanel();
+        jButtonAideOk = new javax.swing.JButton();
+        jLabelAide = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -249,6 +260,16 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jButtonAide.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonAide.setText("Aide");
+        jButtonAide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAideMouseClicked(evt);
+            }
+        });
+        jButtonAide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAideActionPerformed(evt);
+            }
+        });
 
         jButtonDifficulte.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jButtonDifficulte.setText("Difficulté");
@@ -351,21 +372,62 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jLabelCompteur.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         jLabelCompteur.setForeground(new java.awt.Color(255, 255, 255));
 
+        jButtonAideOk.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        jButtonAideOk.setText("Ok");
+        jButtonAideOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAideOkMouseClicked(evt);
+            }
+        });
+        jButtonAideOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAideOkActionPerformed(evt);
+            }
+        });
+
+        jLabelAide.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        javax.swing.GroupLayout jPanelAideLayout = new javax.swing.GroupLayout(jPanelAide);
+        jPanelAide.setLayout(jPanelAideLayout);
+        jPanelAideLayout.setHorizontalGroup(
+            jPanelAideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAideLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(jPanelAideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelAide, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAideOk, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(77, Short.MAX_VALUE))
+        );
+        jPanelAideLayout.setVerticalGroup(
+            jPanelAideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAideLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jLabelAide, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jButtonAideOk)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonDifficile, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFacile, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonMoyen, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(112, 112, 112)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonJouer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDifficulte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonDifficile, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonFacile, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonMoyen, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonAide, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonJouer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonDifficulte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(jPanelAide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 669, Short.MAX_VALUE)
@@ -389,7 +451,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
                         .addGap(185, 185, 185)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonMoyen)
-                            .addComponent(jButtonAide)))
+                            .addComponent(jButtonAide))
+                        .addGap(29, 29, 29)
+                        .addComponent(jPanelAide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelCompteur, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
@@ -834,6 +898,44 @@ public class IHMPrincipale extends javax.swing.JFrame {
         difficulte = 3;
     }//GEN-LAST:event_jButtonDifficileMouseClicked
 
+    private void jButtonAideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAideActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAideActionPerformed
+
+    private void jButtonAideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAideMouseClicked
+        jPanel1.remove(jButtonJouer);
+        jPanel1.remove(jButtonAide);
+        jPanel1.remove(jButtonDifficulte);
+        jPanel1.remove(jButtonReglage);
+        jPanelAide.setBounds((dimImage[0] / 2) - 200, dimImage[1] / 2 - 300, 400, 600);
+        jPanel1.add(jPanelAide);
+        jButtonAideOk.setBounds(100, 480, 200, 80);
+        jPanelAide.add(jButtonAideOk);
+        jLabelAide.setHorizontalTextPosition(JLabel.CENTER);
+        jLabelAide.setBorder(BorderFactory.createLineBorder(Color.black));
+        jLabelAide.setBounds(20, 20, 360, 420);
+        String AideTxt = "<html><p>Le but du jeu est de diriger le vaisseau jusqu'à l’arrivée. "
+                + "Pour cela, le joueur doit d'abord traverser une route en évitant les boules de feu qui se déplacent à différentes vitesses puis le vide avec des vaisseaux à différentes vitesses qu’il faut utiliser pour rallier l’arrivée. "
+                + "La vaisseau meurt si il touche une boule de feu ou si il tombe dans le vide."
+                + "Attention à la rocket...</p></html>";
+        jLabelAide.setText(AideTxt);
+        jPanelAide.add(jLabelAide);
+    }//GEN-LAST:event_jButtonAideMouseClicked
+
+    private void jButtonAideOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAideOkActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAideOkActionPerformed
+
+    private void jButtonAideOkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAideOkMouseClicked
+        jPanelAide.remove(jButtonAideOk);
+        jPanelAide.remove(jLabelAide);
+        jPanel1.remove(jPanelAide);
+        jPanel1.add(jButtonJouer);
+        jPanel1.add(jButtonAide);
+        jPanel1.add(jButtonDifficulte);
+        jPanel1.add(jButtonReglage);
+    }//GEN-LAST:event_jButtonAideOkMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -874,6 +976,7 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAide;
+    private javax.swing.JButton jButtonAideOk;
     private javax.swing.JButton jButtonDifficile;
     private javax.swing.JButton jButtonDifficulte;
     private javax.swing.JButton jButtonFacile;
@@ -882,7 +985,9 @@ public class IHMPrincipale extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNoSound;
     private javax.swing.JButton jButtonReglage;
     private javax.swing.JButton jButtonSoundOn;
+    private javax.swing.JLabel jLabelAide;
     private javax.swing.JLabel jLabelCompteur;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelAide;
     // End of variables declaration//GEN-END:variables
 }
