@@ -676,8 +676,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jPanel1.add(jButtonFacile);
         jPanel1.add(jButtonMoyen);
         jPanel1.add(jButtonDifficile);
-
-
     }//GEN-LAST:event_jButtonDifficulteMouseClicked
 
     private void jButtonFacileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFacileActionPerformed
@@ -792,8 +790,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
 
         jPanel1.add(jButtonSoundOn);
         jPanel1.add(jButtonNoSound);
-
-
     }//GEN-LAST:event_jButtonReglageMouseClicked
 
     private void jButtonJouerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJouerActionPerformed
@@ -813,7 +809,6 @@ public class IHMPrincipale extends javax.swing.JFrame {
         jLabelCompteur.setVisible(true);
         jPanel1.add(jLabelCompteur);
         jLabelCompteur.setText(Integer.toString(compteurVie));
-
     }//GEN-LAST:event_jButtonJouerMouseClicked
 
     private void jButtonNoSoundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNoSoundMouseClicked
